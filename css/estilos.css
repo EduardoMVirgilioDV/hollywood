@@ -1,0 +1,22 @@
+main{
+    margin-bottom: 12.5vh;
+}
+
+
+#footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    padding-top: 16px;
+    height: 10vh;
+    width: 100vw;
+    text-align: center;
+    font-size: 24px;
+};
+
+.btn-image-display{
+    background-color: rgb(243, 156, 18);
+    display: block;
+    border: none;
+    outline: none;
+}
