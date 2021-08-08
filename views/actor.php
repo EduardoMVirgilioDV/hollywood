@@ -1,12 +1,3 @@
-<?php include 'conexion.php' ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<?php include 'include/head.php' ?>
-</head>
-<body>
-
-	<?php include 'include/header.php' ?>
 	<main class="container">
 	<section class="row">
 		<article class="col">
@@ -14,65 +5,57 @@
 		</article>
 	</section>
 	<!--Es necesario el container,  el row, y col sì o sì -->
-	<?php if($_GET) { ?>
+	<?php if($_GET) { 
+		$actor_id = $_GET['actor'];
+		$query_actor = "SELECT * FROM actores WHERE id= '$actor_id'";
+		$resultado_actor = mysqli_query($conexion,$query_actor); 
+		$actor =  mysqli_fetch_assoc($resultado_actor);	
+	?>
+	<section class="row">
+		<article class="col-md-8">
+			<div class="card">
+				<div class="card-body">
+					<h4 class="card-title">
+						<?php echo $actor['nombre']; ?> <?php echo $actor['apellido']; ?> 
+					</h4>
+					<p class="card-text"><?php echo $actor['nacionalidad']; ?></p>
+					<p class="card-text"><?php echo $actor['detalle']; ?></p>
+				</div>
+			</div>
+		</article>
+	</section>
+
 		<section class="row">
 			<article class="col">
-				<?php 
-					
-					$actor_id = $_GET['id'];
-					$query_actor = "SELECT * FROM actores WHERE id= '$actor_id'";
-					$resultado_actor = mysqli_query($conexion,$query_actor); 
-					$actor =  mysqli_fetch_assoc($resultado_actor);	
-				?>
-				<h2>
-					<?php echo $actor['nombre']; ?> 
-					<?php echo $actor['apellido']; ?> 
-				</h2>
-				<h3>
-					Nacionalidad: <?php echo $actor['nacionalidad']; ?>
-				</h3>
-				<h3>
-					<?php echo $actor['descripcion']; ?>
-				</h3>
+				<h1>Premios</h1>
 			</article>
 		</section>
-		<?php 
+		<section class="row">
+	<?php 
 			
-			$consulta_premios = "SELECT premios.*, actores_premios.* FROM actores_premios
-			INNER JOIN premios ON premios.idpremios = actores_premios.premios_idpremios
-			WHERE actores_premios.actores_id = $actor_id ORDER BY actores_premios.anio ASC";
+		$consulta_nominaciones = "SELECT premios.nombre AS award_name, premios.fecha AS award_date, premios.id AS award_id, nominaciones.nominacion AS nombre, nominaciones.detalle AS detalle FROM actores INNER JOIN actores_premios ON actores_premios.actor_id = actores.id INNER JOIN premios_nominaciones ON premios_nominaciones.id = actores_premios.premio_nominacion_id INNER JOIN premios ON premios.id = premios_nominaciones.premio_id INNER JOIN nominaciones ON nominaciones.id = premios_nominaciones.nominacion_id WHERE actores.id = '$actor_id'";
 
-			$resultado_premios = mysqli_query($conexion,$consulta_premios);
-			
-			if (mysqli_num_rows($resultado_premios) > 0) {
+		$resultado_nominaciones = mysqli_query($conexion,$consulta_nominaciones);
 		
-				$contador = 0;
-		?>
-			<section class="row">
-				<table class="table">
-					<thead>
-						<tr>
-						<th scope="col">#</th>
-						<th scope="col">Año</th>
-						<th scope="col">Premio</th>
-						<th scope="col">Descripcion</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php while ($premio = mysqli_fetch_assoc($resultado_premios)){
-							$contador++;
-						?>
-							<tr>
-								<th scope="row"><?php echo $contador ?></th>
-								<td><?php echo $premio['anio'] ?></td>
-								<td><?php echo $premio['nombre'] ?></td>
-								<td><?php echo $premio['descripcion'] ?></td>
-							</tr>
-						<?php } ?>
-					</tbody>
-				</table>
-			</section>
-		<?php } else { ?>
+		if (mysqli_num_rows($resultado_nominaciones) > 0) {
+			while ($nominaciones = mysqli_fetch_assoc($resultado_nominaciones)){
+	?>
+			<article class="col-md-4">
+				<div class="card">
+					<div class="card-body">
+						<h4 class="card-title">
+							<?php echo $nominaciones['award_name']; ?>
+						</h4>
+						<p class="card-text"><?php echo $nominaciones['award_date']; ?></p>
+						<p class="card-text"><?php echo $nominaciones['nombre']; ?></p>
+						<p class="card-text"><?php echo $nominaciones['detalle']; ?></p>
+					</div>
+				</div>
+			</article>
+			
+	<?php	} ?>			
+		</section>
+	<?php } else { ?>
 		<section class="row">
 			<article class="col">
 				<h1 class="display-1 text-center text-danger"> 

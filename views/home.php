@@ -24,43 +24,7 @@
 
 		<section class="row">
 			<section class="col-12">
-				<?php
-					$query_actors = "SELECT * FROM actores";
-					$resultado = mysqli_query($conexion,$query_actors);
-					// si trajo mas de 0 filas 
-				if (mysqli_num_rows($resultado)>0){
-					$contador=0;
-				?>
-					<table class="table">
-						<thead>
-							<tr>
-								<th scope="col"></th>
-								<th scope="col">Nombre</th>
-								<th scope="col">Apellido</th>
-								<th scope="col">Ver ficha</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php 
-									
-								while($actor = mysqli_fetch_assoc($resultado)){
-								$contador ++;
-							?>
-								<tr>
-									<th scope="row"><?php echo $contador ?></th>
-									<td><?php echo $actor['nombre'] ?></td>
-									<td><?php echo $actor['apellido'] ?></td>
-									<td><a href="actor.php?id=<?php echo $actor['id'] ?>">Ver ficha </a></td>
-								</tr> 
-							<?php	}	?>
-						</tbody>
-					</table>
-				<?php	} 	else { ?>
-					<h2>
-						no se han encontrado resultados para la busqueda';
-					</h2>
-				<?php	}	?>
-							
+					
 			</section>
 		</section>
 	</main>

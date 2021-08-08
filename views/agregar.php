@@ -1,14 +1,46 @@
-<?php include 'conexion.php' ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<?php 
+if ($_POST && isset($_POST)) { 
+	$errors = [];
+	if($_GET['entity'] == 'actor'){
+		$nombre = $_POST['nombre'];
+		$apellido = $_POST['apellido'];
+		$nacionalidad = $_POST['nacionalidad'];
+		$descripcion = $_POST['descripcion'];
+		if(empty($apellido)){
+			$errors[] = 'El campo Apellido es requerido';
+		}
+		if(empty($nombre)){
+			$errors[] = 'El campo Nombre es requerido';
+		}
+		if(empty($nacionalidad)){
+			$errors[] = 'El campo Nacionalidad es requerido';
+		}
+		if(empty($descripcion)){
+			$errors[] = 'El campo Descripción es requerido';
+		}
+		if(!empty($errors)){
+			echo '<div class="alert alert-danger">';
+			foreach($errors as $error) {
+			 echo $error . '<br>';
+			}
+			echo '</div>';
+		}else{
+			
+			$query_actor= "INSERT INTO `actores` (`id`, `nombre`, `apellido`, `detalle`, `nacionalidad`) VALUES (NULL, '$nombre', '$apellido', '$descripcion', '$nacionalidad')";
+			$resultado_actor = mysqli_query($conexion, $query_actor);
+		
+			if($resultado_actor){
+				header("Location:index.php?view=actors")
+			}
 
-	<?php include 'include/head.php' ?>
+		}
+		
+	}
+}
 
-</head>
-<body>
-
-	<?php include 'include/header.php' ?>
+	
+	
+?>
 <main class="container">
 	<section class="row">
 		<article class="col">
@@ -18,7 +50,7 @@
 	<!--Es necesario el container,  el row, y col sì o sì -->
 	<section class="row">
 		<div class="col">
-			<form id='form-alta-actor' action="abm_actor.php" method="POST">
+			<form id='form-alta-actor' action="index.php?view=agregar&&entity=actor" method="POST">
 				<div class="form-group">
 					<label for="nombre_actor">Nombre</label>
 					<input type="text" class="form-control" id="nombre_actor" placeholder="Ingresa el nombre del actor" name='nombre'>
@@ -40,8 +72,3 @@
 		</div>
 	</section>
 </main>
-
-	<?php include 'include/footer.php' ?>
-	<script src="js/main.js"></script>
-</body>
-</html
