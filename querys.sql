@@ -6,13 +6,8 @@ ON nominaciones.id = premios_nominaciones.nominacion_id
 WHERE premios.id = 1
 
 -- -------------------
-SELECT * FROM actores 
-INNER JOIN actores_premios 
-ON actores_premios.actor_id = actores.id 
-INNER JOIN premios_nominaciones 
-ON premios_nominaciones.id = actores_premios.premio_nominacion_id 
-INNER JOIN premios 
-ON premios.id = premios_nominaciones.premio_id 
-INNER JOIN nominaciones 
-ON nominaciones.id = premios_nominaciones.nominacion_id 
-WHERE actores.id = 1
+SELECT nominaciones.id,nominaciones.actor_id,nominaciones.fecha,premios.premio,premios.motivo FROM actores INNER JOIN nominaciones ON nominaciones.actor_id = actores.id INNER JOIN premios ON nominaciones.premio_id = premios.id WHERE actores.id = 2;
+
+--------------------------------
+
+INSERT INTO `nominaciones` (`id`, `actor_id`, `premio_id`, `fecha`) VALUES (NULL, '2', '5', '2009');

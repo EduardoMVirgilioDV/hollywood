@@ -21,9 +21,9 @@
         <a class="nav-link" href="index.php?view=register">Registrarse</a>
       </li>
       <?php } else { ?>
-        <?php if(isset($_SESSION['user']) && $_SESSION['user']["administrador"] == 1){ ?>
+        <?php if($_SESSION['user']['is_admin'] == 1){ ?>
           <li class="nav-item">
-            <a class="nav-link" href="index.php?view=panel">Administrador</a>
+            <a class="nav-link" href="index.php?view=users">Usuarios</a>
           </li>
         <?php } ?>
         <li class="nav-item">

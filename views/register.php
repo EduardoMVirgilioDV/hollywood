@@ -5,8 +5,7 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
         $password_confirm = $_POST['password_confirm'];
-        $email = $_POST['email'];
-        $admin = str_contains($email, '@davinci') ? 1 : 0;
+        $admin = 0;
         $query_username = mysqli_query($conexion, "SELECT * FROM usuarios WHERE username = '$username'");
         $quantity = mysqli_fetch_array($query_username);
 
@@ -18,12 +17,6 @@
             $errors[] = 'El nombre de usuario no puede estar vacío.';
         }elseif ($quantity > 0) {
             $errors[] = 'El nombre de usuario ya esta en uso';
-        }
-        
-        if(empty($email)) {
-            $errors[] = 'El correo no puede estar vacio';
-        }elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            $errors[] = 'El correo no valido';
         }
 
         if(empty($password)) {
@@ -43,7 +36,7 @@
         }
         else {
 
-            $query_user = "INSERT INTO `usuarios` (`id`, `username`, `email`, `password`, `administrador`) VALUES (NULL, '$username','$email','$password',$admin)";
+            $query_user = "INSERT INTO `usuarios` (`id`, `username`, `password`, `is_admin`) VALUES (NULL, '$username','$password',$admin)";
             $query_user_result = mysqli_query($conexion, $query_user);
             if($query_user_result){
                 echo '<div class="alert alert-success">';
@@ -64,10 +57,6 @@
     <div class="form-group">
         <label for="username">Username</label>
         <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
     </div>
     <div class="form-group">
         <label for="password">Password</label>
