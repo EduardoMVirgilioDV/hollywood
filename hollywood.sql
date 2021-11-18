@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-07-2019 a las 07:03:19
--- Versión del servidor: 10.1.38-MariaDB
--- Versión de PHP: 7.3.3
+-- Tiempo de generación: 18-11-2021 a las 03:00:12
+-- Versión del servidor: 10.4.21-MariaDB
+-- Versión de PHP: 8.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -41,49 +40,29 @@ CREATE TABLE `actores` (
 --
 
 INSERT INTO `actores` (`id`, `nombre`, `apellido`, `nacionalidad`, `descripcion`) VALUES
-(4, 'Meryl', 'Streep', 'Estado Unidense', 'Actriz de teatro, cine y televisión'),
-(5, 'Penelope', 'Cruz', 'EspaÃ±ola', ' Actriz y modelo.'),
-(11, 'Ricardo', 'Darin', 'Argentino', ' Actor y Director de cine y tv.'),
-(13, 'Natalie', 'Portman', 'Isrraelí', 'Actriz, productora y directora '),
-(14, 'Kate', 'Winslet', 'Estado Unidense', 'Actriz de cine, tv y teatro.'),
-(15, 'Gary', 'Oldman', 'Inglesa', ' actor, director, guionista, músico '),
-(16, 'Brad', 'Pitt', 'Estado Unidense', 'Actor y productor de cine.'),
-(17, 'Javier ', 'Bardem', 'Española', 'Actor.'),
-(18, 'Tilda ', 'Swinton', 'Inglesa', ' Actriz y modelo'),
-(19, 'Jean', 'Reno', 'Francesa', 'Actor.'),
-(20, 'Keira Christina', 'Knightley', 'Inglesa', 'Actriz y Modelo.'),
-(21, 'Christian ', 'Bale', 'Inglés', 'Actor.'),
-(22, 'Cate ', 'Blanchett', 'Australiana', 'Actriz de cine y teatro.');
+(2, 'Penelope', 'Cruz', 'Española', ' Actriz y modelo.'),
+(5, 'William Bradley', 'Pitt', 'Estadounidense', 'Actor, modelo y productor de cine, multifacético.');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `actores_premios`
+-- Estructura de tabla para la tabla `nominaciones`
 --
 
-CREATE TABLE `actores_premios` (
-  `actores_id` int(11) NOT NULL,
-  `premios_idpremios` int(11) NOT NULL,
-  `anio` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `nominaciones` (
+  `id` int(11) NOT NULL,
+  `actor_id` int(11) NOT NULL,
+  `premio_id` int(11) NOT NULL,
+  `fecha` varchar(250) COLLATE utf8mb4_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
--- Volcado de datos para la tabla `actores_premios`
+-- Volcado de datos para la tabla `nominaciones`
 --
 
-INSERT INTO `actores_premios` (`actores_id`, `premios_idpremios`, `anio`) VALUES
-(11, 8, '2016'),
-(11, 9, '2010'),
-(13, 1, '2011'),
-(13, 2, '2011'),
-(14, 3, '2009'),
-(15, 4, '2018'),
-(17, 5, '2007'),
-(18, 7, '2007'),
-(21, 6, '2014'),
-(22, 10, '2014'),
-(22, 11, '1999'),
-(22, 12, '2005');
+INSERT INTO `nominaciones` (`id`, `actor_id`, `premio_id`, `fecha`) VALUES
+(4, 2, 25, '2009'),
+(5, 5, 26, '2019');
 
 -- --------------------------------------------------------
 
@@ -92,28 +71,39 @@ INSERT INTO `actores_premios` (`actores_id`, `premios_idpremios`, `anio`) VALUES
 --
 
 CREATE TABLE `premios` (
-  `idpremios` int(11) NOT NULL,
-  `nombre` varchar(45) NOT NULL,
-  `descripcion` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL,
+  `premio` varchar(250) COLLATE utf8mb4_spanish2_ci NOT NULL,
+  `web` varchar(250) COLLATE utf8mb4_spanish2_ci NOT NULL,
+  `motivo` varchar(250) COLLATE utf8mb4_spanish2_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 
 --
 -- Volcado de datos para la tabla `premios`
 --
 
-INSERT INTO `premios` (`idpremios`, `nombre`, `descripcion`) VALUES
-(1, 'Premio Oscar', 'Mejor Actriz'),
-(2, 'BAFTA Film Award', 'Mejor Actriz '),
-(3, 'Bafta', 'Mejor Actriz'),
-(4, 'Premio Oscar', 'Mejor Actor'),
-(5, 'Oscar', 'Mejor actor de reparto'),
-(6, 'SAG', 'Mejor actor de reparto'),
-(7, 'Oscar', 'Mejor Actriz de reparto'),
-(8, 'Goya', 'Mejor Actor'),
-(9, 'Condor de Plata', 'Mejor Actor'),
-(10, 'Oscar', 'Mejor Actriz'),
-(11, 'Globo de oro', 'Mejor actriz drama'),
-(12, 'Oscar', 'Mejor actriz de reparto');
+INSERT INTO `premios` (`id`, `premio`, `web`, `motivo`) VALUES
+(25, 'Oscar', 'https://www.oscars.org/', 'Mejor actriz de reparto'),
+(26, 'Oscar', 'https://www.oscars.org/', 'Mejor actor de reparto');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `usuarios`
+--
+
+CREATE TABLE `usuarios` (
+  `id` int(11) NOT NULL,
+  `username` varchar(250) COLLATE utf8mb4_spanish2_ci NOT NULL,
+  `password` varchar(250) COLLATE utf8mb4_spanish2_ci NOT NULL,
+  `is_admin` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `username`, `password`, `is_admin`) VALUES
+(1, 'Evelin', 'Davinci', 1);
 
 --
 -- Índices para tablas volcadas
@@ -126,18 +116,24 @@ ALTER TABLE `actores`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `actores_premios`
+-- Indices de la tabla `nominaciones`
 --
-ALTER TABLE `actores_premios`
-  ADD PRIMARY KEY (`actores_id`,`premios_idpremios`),
-  ADD KEY `fk_actores_has_premios_premios1_idx` (`premios_idpremios`),
-  ADD KEY `fk_actores_has_premios_actores_idx` (`actores_id`);
+ALTER TABLE `nominaciones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `actor_id` (`actor_id`),
+  ADD KEY `premio_id` (`premio_id`);
 
 --
 -- Indices de la tabla `premios`
 --
 ALTER TABLE `premios`
-  ADD PRIMARY KEY (`idpremios`);
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -147,24 +143,36 @@ ALTER TABLE `premios`
 -- AUTO_INCREMENT de la tabla `actores`
 --
 ALTER TABLE `actores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `nominaciones`
+--
+ALTER TABLE `nominaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `premios`
 --
 ALTER TABLE `premios`
-  MODIFY `idpremios` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT de la tabla `usuarios`
+--
+ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Restricciones para tablas volcadas
 --
 
 --
--- Filtros para la tabla `actores_premios`
+-- Filtros para la tabla `nominaciones`
 --
-ALTER TABLE `actores_premios`
-  ADD CONSTRAINT `fk_actores_has_premios_actores` FOREIGN KEY (`actores_id`) REFERENCES `actores` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_actores_has_premios_premios1` FOREIGN KEY (`premios_idpremios`) REFERENCES `premios` (`idpremios`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `nominaciones`
+  ADD CONSTRAINT `nominaciones_ibfk_1` FOREIGN KEY (`actor_id`) REFERENCES `actores` (`id`),
+  ADD CONSTRAINT `nominaciones_ibfk_2` FOREIGN KEY (`premio_id`) REFERENCES `premios` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
