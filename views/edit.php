@@ -60,6 +60,7 @@ if ($_POST && isset($_POST)) {
 		$web = $_POST['web'];
 		$motivo = $_POST['motivo'];
 		$id= $_POST['element'];
+
 		if(empty($premio)){
 			$errors[] = 'El campo Premio es requerido';
 		}
@@ -84,17 +85,18 @@ if ($_POST && isset($_POST)) {
 			echo '</div>';
 		}else{
 			
-			$query_primary= "UPDATE `premios` SET `premio`='$premio',`web`='$web',`motivo`='$motivo' WHERE premio.id = '$id'";
+			$query_primary= "UPDATE `premios` SET `premio`='$premio',`web`='$web',`motivo`='$motivo' WHERE premios.id = '$id'";
+			
 			$resultado_premio = mysqli_query($conexion, $query_primary);
-		
-			if($resultado_premio){
-				header("Location: index.php?view=award&award=$id");
-				exit();
-			}
+
+			header("Location: index.php?view=award&award=$id");
+			
+			exit();
 
 		}
 		
 	}
+	exit();
 }
 
 	

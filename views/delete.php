@@ -28,7 +28,7 @@ if ($_POST && isset($_POST)) {
             exit();
         }
     }
-    if($entity == 'premio'){
+    if($entity == 'award'){
         $query_entity= "DELETE FROM premios WHERE id = '$element'";
         $query_secondary= "DELETE FROM nominaciones WHERE premio_id = '$element'";
         $result_secondary = mysqli_query($conexion, $query_secondary);
